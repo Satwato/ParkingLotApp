@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.satwatovirtusa.parking_lot.repository.AuthorityRepository;
 import com.satwatovirtusa.parking_lot.repository.UserRepository;
 import com.satwatovirtusa.parking_lot.model.Users;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,11 +46,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by fan.jin on 2017-05-10.
- */
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping( value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE )
 public class AuthenticationController {
 

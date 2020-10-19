@@ -7,5 +7,5 @@ import com.satwatovirtusa.parking_lot.model.ParkingLot;
 
 @Repository
 public interface ParkingLotRepository extends MongoRepository<ParkingLot, Long>{
-    ParkingLot findByGeocode(long geocode);
+    ParkingLot findByGeocode(String geocode);
 }

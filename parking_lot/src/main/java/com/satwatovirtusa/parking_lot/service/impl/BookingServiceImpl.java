@@ -30,13 +30,25 @@ public class BookingServiceImpl implements BookingService{
 	private MongoTemplate mongoTemplate;
     
     @Override
-    public List<Booking> findRange(long geocode, long st, long en) throws AccessDeniedException {
+    public List<Booking> findRange(String geocode, long st, long en) throws AccessDeniedException {
         // String pattern = "yyyy-MM-dd'T'HH:mm:ss";
         // DateFormat df = new SimpleDateFormat(pattern);
         // String str = df.format(st);
         // String end =df.format(en);
         // System.out.println("sss "+str+" "+end );
-        BasicQuery query = new BasicQuery("{$or: [ {$and:[{starttime: {$lte:"+Long.toString(st)+"}},{endtime:{$gte:"+Long.toString(en)+"}}]} ,{$or: [ {starttime: { $gte:" +Long.toString(st)+", $lte:"+Long.toString(en)+"}} ,  {endtime: {$gte:"+Long.toString(st) +",$lte:" +Long.toString(en)+"}}]}] , geocode:"+Long.toString(geocode)+"} )"
+        BasicQuery query = new BasicQuery("{$or: [ {$and:[{starttime: {$lte:"+Long.toString(st)+"}},{endtime:{$gte:"+Long.toString(en)+"}}]} ,{$or: [ {starttime: { $gte:" +Long.toString(st)+", $lte:"+Long.toString(en)+"}} ,  {endtime: {$gte:"+Long.toString(st) +",$lte:" +Long.toString(en)+"}}]}] , geocode:'"+geocode+"'} )"
+           );
+        // "{starttime:{$lte:" + Long.toString(st) + "}, endtime: {$gte:" + Long.toString(en) + "},geocode:{$eq:" + Long.toString(geocode) + "} }}"
+        //Query query = new Query();
+       
+        List<Booking> u = mongoTemplate.find(query,Booking.class);
+        // .matching( query.addCriteria(Criteria.where("starttime").lte(st).and("endtime").gte(en).and("geocode").is(geocode))).all();
+        return u;
+    }
+
+    @Override
+    public List<Booking> findByUsername(String username,long st, long en) throws AccessDeniedException {
+        BasicQuery query = new BasicQuery("{starttime: { $lte:" +Long.toString(st)+"}} ,  {endtime: {$gte:" +Long.toString(en)+"}} , geocode:'"+username+"'} )"
            );
         // "{starttime:{$lte:" + Long.toString(st) + "}, endtime: {$gte:" + Long.toString(en) + "},geocode:{$eq:" + Long.toString(geocode) + "} }}"
         //Query query = new Query();

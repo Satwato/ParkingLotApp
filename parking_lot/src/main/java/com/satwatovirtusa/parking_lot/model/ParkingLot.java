@@ -24,19 +24,21 @@ public class ParkingLot {
     private String id;
 
     @NotEmpty
-    private long geocode;
+    private String geocode;
     @NotEmpty
     private String address;
     @NotEmpty
-    private long pin;
-    @NotEmpty
     private long slots;
+    @NotEmpty
+    private float lat;
+    @NotEmpty
+    private float lng;
  
 
     
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", Geocode=" + geocode + ", Address=" + address + ", Pin=" + pin + ", Slots" + slots 
+        return "Employee [id=" + id + ", Geocode=" + geocode + ", Address=" + address + ", Slots" + slots 
        + "]";
     }
  

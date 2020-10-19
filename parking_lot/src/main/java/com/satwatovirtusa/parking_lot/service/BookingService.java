@@ -14,8 +14,8 @@ public interface BookingService {
 
    
     
-    public List<Booking> findRange(long geocode, long st, long en) ;
-
+    public List<Booking> findRange(String geocode, long st, long en) ;
+    public List<Booking> findByUsername(String username , long st, long en) ;
     
     
 

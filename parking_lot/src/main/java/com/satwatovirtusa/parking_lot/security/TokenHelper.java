@@ -2,6 +2,8 @@ package com.satwatovirtusa.parking_lot.security;
 
 import com.satwatovirtusa.parking_lot.common.TimeProvider;
 import com.satwatovirtusa.parking_lot.model.Users;
+import com.satwatovirtusa.parking_lot.repository.UserRepository;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 
 /**
@@ -37,6 +40,8 @@ public class TokenHelper {
     @Value("${jwt.header}")
     private String AUTH_HEADER;
 
+    @Autowired
+    private UserRepository userRepository;
   
     @Autowired
     TimeProvider timeProvider;
@@ -96,8 +101,13 @@ public class TokenHelper {
     }
 
     public String generateToken(String username) {
-    
+        
+        
+        Users u = userRepository.findByUsername(username);
+        Claims claims = Jwts.claims().setSubject(u.getUsername());
+        claims.put("scopes", u.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
         return Jwts.builder()
+                .setClaims(claims)
                 .setIssuer( APP_NAME )
                 .setSubject(username)
                 .setIssuedAt(timeProvider.now())

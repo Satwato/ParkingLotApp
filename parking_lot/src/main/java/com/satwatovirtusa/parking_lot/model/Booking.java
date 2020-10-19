@@ -28,9 +28,20 @@ public class Booking {
     private long endtime;
     
     @NotEmpty
-    private long geocode;
+    private String geocode;
 
     @NotEmpty
     private String username;
 
+    @NotEmpty
+    private String type;
+
+    @NotEmpty
+    private String payment_id;
+
+    @NotEmpty
+    private String order_id;
+
+    @NotEmpty
+    private String signature;
 }

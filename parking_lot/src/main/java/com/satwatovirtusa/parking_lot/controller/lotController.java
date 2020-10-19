@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import com.satwatovirtusa.parking_lot.exception.LotExists;
 import com.satwatovirtusa.parking_lot.exception.ResourceNotFoundException;
 import com.satwatovirtusa.parking_lot.model.ParkingLot;
 import com.satwatovirtusa.parking_lot.repository.ParkingLotRepository;
 
-@RestController @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@RestController 
+@RequestMapping(value="/api" , produces = MediaType.APPLICATION_JSON_VALUE )
 public class lotController {
     @Autowired
     private ParkingLotRepository parkingLotRepository;
@@ -41,12 +46,21 @@ public class lotController {
         return ResponseEntity.ok().body(parkingLot);
     }
     
+    
     @PostMapping("/lots")
     @PreAuthorize("hasRole('ADMIN')")
-    public ParkingLot createParkingLot(@Valid @RequestBody ParkingLot parkingLot) {
-        return parkingLotRepository.save(parkingLot);
+    public ParkingLot createParkingLot(@Valid @RequestBody ParkingLot parkingLot) throws LotExists {
+        
+        if (parkingLotRepository.findByGeocode(parkingLot.getGeocode())==null){
+            return parkingLotRepository.save(parkingLot);
+        }
+        else{
+            
+                throw new LotExists("Lot exists");
+            
+        }
     }
-
+    
     @PutMapping("/lots/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ParkingLot> updateParkingLot(@PathVariable(value = "id") Long ParkingLotId,
@@ -56,7 +70,6 @@ public class lotController {
 
         parkingLot.setAddress(parkingLotDetails.getAddress());
         parkingLot.setSlots(parkingLotDetails.getSlots());
-        parkingLot.setPin(parkingLotDetails.getPin());
         parkingLot.setGeocode(parkingLotDetails.getGeocode());
         final ParkingLot updatedParkingLot = parkingLotRepository.save(parkingLot);
         return ResponseEntity.ok(updatedParkingLot);

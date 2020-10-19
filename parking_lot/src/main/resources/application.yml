@@ -1,8 +1,32 @@
 app:
-  name: springboot-jwt-demo
+  name: parkingLotApp
 
 jwt:
   header: Authorization
   expires_in: 3000 # 5 minutes
   mobile_expires_in: 600 # 10 minutes
   secret: queenvictoria
+
+razorpay:
+  apikey: rzp_test_jALFPFpJZewmfo
+  secret: h6LInHPLLasilgaMmJVRUV9Y
+
+spring:
+  data:
+      mongodb:
+        database: parking_lot
+        host: localhost
+        port: 27017
+  
+  application:
+    name: ParkingLot
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: true
+
+server:
+  port: 8102
+
+
+  servlet:
+    context-path: /parking_lot
