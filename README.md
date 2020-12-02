@@ -1,6 +1,6 @@
 # ParkingLotApp
 
-This app uses React.Js and Spring Boot to facilatate a parking lot management system. This also features Google Maps API(for displaying the parking lots available and for admins to markers and add new lots) and Razorpay (for payment)
+This app uses React.Js, Spring Boot and MongoDB to facilatate a parking lot management system. This also features Google Maps API(for displaying the parking lots available and for admins to markers and add new lots) and Razorpay (for payment)
 An admin can:
 - Add, Remove, Update Parking Lots
 A User can 
