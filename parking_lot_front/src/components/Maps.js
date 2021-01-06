@@ -129,7 +129,7 @@ const Maps =( props )=>{
                 props.history.push('/lots');
             });
         }else{
-            LotsService.updateEmployee(lot, id).then( res => {
+            LotsService.updateLots(lot, id).then( res => {
                 props.history.push('/lots');
             });
         }
